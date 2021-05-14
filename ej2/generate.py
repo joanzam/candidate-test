@@ -2,6 +2,8 @@ from nmigen import *
 from nmigen.cli import main
 from random import getrandbits
 
+from nmigen.back import verilog
+
 class RegisterFile(Elaboratable):
     def __init__(self):
         self.adr   = Signal(4)
@@ -26,4 +28,6 @@ class RegisterFile(Elaboratable):
 
 if __name__ == "__main__":
     rf = RegisterFile()
-    main(rf, ports=[rf.adr, rf.dat_r, rf.dat_w, rf.we])
+    #main(rf, ports=[rf.adr, rf.dat_r, rf.dat_w, rf.we])
+    with open("gen_tescase.v", "w") as f:
+        f.write(verilog.convert(rf, ports=[rf.adr, rf.dat_r, rf.dat_w, rf.we]))
